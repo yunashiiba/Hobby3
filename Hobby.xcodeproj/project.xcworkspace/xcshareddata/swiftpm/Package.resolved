@@ -1,0 +1,33 @@
+{
+  "originHash" : "67023425b8c9f7548e228387ddaa510bff80b79d587830d9b1b616b8c27aff61",
+  "pins" : [
+    {
+      "identity" : "charts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielgindi/Charts.git",
+      "state" : {
+        "revision" : "dd9c72e3d7e751e769971092a6bd72d39198ae63",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "b77443ca7fa25407869ca537bf3ae912b1427bff",
+        "version" : "12.13.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "revision" : "b442ee3e9caa1abab26fd9b23f060f6f0815ff48",
+        "version" : "10.33.0"
+      }
+    }
+  ],
+  "version" : 3
+}

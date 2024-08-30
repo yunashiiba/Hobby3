@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D0124CF2C5F1F1100E3B975 /* Datas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124CE2C5F1F1100E3B975 /* Datas.swift */; };
+		6D0124D12C5F2C3200E3B975 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124D02C5F2C3200E3B975 /* DataRequest.swift */; };
+		6D0124DC2C5F3E8200E3B975 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6D0124DB2C5F3E8200E3B975 /* Realm */; };
+		6D0124DE2C5F3E8200E3B975 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6D0124DD2C5F3E8200E3B975 /* RealmSwift */; };
+		6D0124E02C5F737F00E3B975 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124DF2C5F737F00E3B975 /* StartViewController.swift */; };
+		6D0124E22C5F9CB200E3B975 /* Encounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124E12C5F9CB200E3B975 /* Encounter.swift */; };
+		6D0124E42C5F9D4000E3B975 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124E32C5F9D4000E3B975 /* Color.swift */; };
+		6D0124E62C60DAB300E3B975 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0124E52C60DAB300E3B975 /* NoticeViewController.swift */; };
+		6D0A0EC22C8146130034E070 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 6D0A0EC12C8146130034E070 /* DGCharts */; };
+		6D0A0EC62C8149C40034E070 /* ZenMaruGothic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D0A0EC52C8149C30034E070 /* ZenMaruGothic-Regular.ttf */; };
+		6D0A0EC82C8152410034E070 /* ViewCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0A0EC72C8152410034E070 /* ViewCustom.swift */; };
 		6D33F96B2C5A3DAB0061592D /* Signup4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D33F96A2C5A3DAB0061592D /* Signup4ViewController.swift */; };
 		6D33F96D2C5A3DBE0061592D /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D33F96C2C5A3DBE0061592D /* MypageViewController.swift */; };
 		6D33F96F2C5A64EF0061592D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D33F96E2C5A64EF0061592D /* LoginViewController.swift */; };
@@ -23,6 +34,13 @@
 		6D98648F2C526A75002DF617 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98648E2C526A75002DF617 /* SignupViewController.swift */; };
 		6D9864912C527C0B002DF617 /* Signup2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9864902C527C0B002DF617 /* Signup2ViewController.swift */; };
 		6D9864932C527C1B002DF617 /* Signup3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9864922C527C1B002DF617 /* Signup3ViewController.swift */; };
+		6DA62A602C6E313400C2CA5D /* GraphPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A5F2C6E313400C2CA5D /* GraphPViewController.swift */; };
+		6DA62A622C6E314300C2CA5D /* GraphHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A612C6E314300C2CA5D /* GraphHViewController.swift */; };
+		6DA62A642C6E45E100C2CA5D /* Notice3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A632C6E45E100C2CA5D /* Notice3ViewController.swift */; };
+		6DA62A662C6F233500C2CA5D /* Notice4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A652C6F233500C2CA5D /* Notice4ViewController.swift */; };
+		6DA62A682C6F24C400C2CA5D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A672C6F24C400C2CA5D /* MapViewController.swift */; };
+		6DA62A6A2C6F28B900C2CA5D /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA62A692C6F28B900C2CA5D /* QuestionViewController.swift */; };
+		6DA8FAE12C6DC70D00A63269 /* Notice2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA8FAE02C6DC70C00A63269 /* Notice2ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +61,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D0124CE2C5F1F1100E3B975 /* Datas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datas.swift; sourceTree = "<group>"; };
+		6D0124D02C5F2C3200E3B975 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
+		6D0124DF2C5F737F00E3B975 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		6D0124E12C5F9CB200E3B975 /* Encounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encounter.swift; sourceTree = "<group>"; };
+		6D0124E32C5F9D4000E3B975 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		6D0124E52C60DAB300E3B975 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		6D0A0EC52C8149C30034E070 /* ZenMaruGothic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ZenMaruGothic-Regular.ttf"; path = "../../../Downloads/Zen_Maru_Gothic/ZenMaruGothic-Regular.ttf"; sourceTree = "<group>"; };
+		6D0A0EC72C8152410034E070 /* ViewCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCustom.swift; sourceTree = "<group>"; };
 		6D33F96A2C5A3DAB0061592D /* Signup4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup4ViewController.swift; sourceTree = "<group>"; };
 		6D33F96C2C5A3DBE0061592D /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		6D33F96E2C5A64EF0061592D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +89,13 @@
 		6D98648E2C526A75002DF617 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		6D9864902C527C0B002DF617 /* Signup2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup2ViewController.swift; sourceTree = "<group>"; };
 		6D9864922C527C1B002DF617 /* Signup3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup3ViewController.swift; sourceTree = "<group>"; };
+		6DA62A5F2C6E313400C2CA5D /* GraphPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPViewController.swift; sourceTree = "<group>"; };
+		6DA62A612C6E314300C2CA5D /* GraphHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHViewController.swift; sourceTree = "<group>"; };
+		6DA62A632C6E45E100C2CA5D /* Notice3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice3ViewController.swift; sourceTree = "<group>"; };
+		6DA62A652C6F233500C2CA5D /* Notice4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice4ViewController.swift; sourceTree = "<group>"; };
+		6DA62A672C6F24C400C2CA5D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6DA62A692C6F28B900C2CA5D /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
+		6DA8FAE02C6DC70C00A63269 /* Notice2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice2ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +103,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0124DE2C5F3E8200E3B975 /* RealmSwift in Frameworks */,
+				6D0A0EC22C8146130034E070 /* DGCharts in Frameworks */,
+				6D0124DC2C5F3E8200E3B975 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +126,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D0A0EC02C8146130034E070 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6D7CB5592C81C755000908BA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6D9864622C4143F2002DF617 /* ViewController.swift */,
+				6D0124DF2C5F737F00E3B975 /* StartViewController.swift */,
+				6D33F96E2C5A64EF0061592D /* LoginViewController.swift */,
+				6D98648E2C526A75002DF617 /* SignupViewController.swift */,
+				6D9864902C527C0B002DF617 /* Signup2ViewController.swift */,
+				6D9864922C527C1B002DF617 /* Signup3ViewController.swift */,
+				6D33F96A2C5A3DAB0061592D /* Signup4ViewController.swift */,
+				6D33F96C2C5A3DBE0061592D /* MypageViewController.swift */,
+				6D33F9702C5B00A50061592D /* Mypage2ViewController.swift */,
+				6D0124E52C60DAB300E3B975 /* NoticeViewController.swift */,
+				6DA8FAE02C6DC70C00A63269 /* Notice2ViewController.swift */,
+				6DA62A632C6E45E100C2CA5D /* Notice3ViewController.swift */,
+				6DA62A652C6F233500C2CA5D /* Notice4ViewController.swift */,
+				6DA62A5F2C6E313400C2CA5D /* GraphPViewController.swift */,
+				6DA62A672C6F24C400C2CA5D /* MapViewController.swift */,
+				6DA62A612C6E314300C2CA5D /* GraphHViewController.swift */,
+				6DA62A692C6F28B900C2CA5D /* QuestionViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		6D7CB55A2C81C787000908BA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6D9864642C4143F2002DF617 /* Main.storyboard */,
+				6D0A0EC72C8152410034E070 /* ViewCustom.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6D7CB55B2C81C795000908BA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6D0124CE2C5F1F1100E3B975 /* Datas.swift */,
+				6D0124D02C5F2C3200E3B975 /* DataRequest.swift */,
+				6D0124E12C5F9CB200E3B975 /* Encounter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6D7CB55C2C81C7B0000908BA /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				6D0124E32C5F9D4000E3B975 /* Color.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		6D9864522C4143F2002DF617 = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +191,7 @@
 				6D9864742C4143F4002DF617 /* HobbyTests */,
 				6D98647E2C4143F4002DF617 /* HobbyUITests */,
 				6D98645C2C4143F2002DF617 /* Products */,
+				6D0A0EC02C8146130034E070 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,18 +210,14 @@
 			children = (
 				6D98645E2C4143F2002DF617 /* AppDelegate.swift */,
 				6D9864602C4143F2002DF617 /* SceneDelegate.swift */,
-				6D9864642C4143F2002DF617 /* Main.storyboard */,
-				6D9864622C4143F2002DF617 /* ViewController.swift */,
-				6D33F96E2C5A64EF0061592D /* LoginViewController.swift */,
-				6D98648E2C526A75002DF617 /* SignupViewController.swift */,
-				6D9864902C527C0B002DF617 /* Signup2ViewController.swift */,
-				6D9864922C527C1B002DF617 /* Signup3ViewController.swift */,
-				6D33F96A2C5A3DAB0061592D /* Signup4ViewController.swift */,
-				6D33F96C2C5A3DBE0061592D /* MypageViewController.swift */,
-				6D33F9702C5B00A50061592D /* Mypage2ViewController.swift */,
+				6D7CB55C2C81C7B0000908BA /* Utility */,
+				6D7CB55A2C81C787000908BA /* View */,
+				6D7CB5592C81C755000908BA /* Controller */,
+				6D7CB55B2C81C795000908BA /* Model */,
 				6D9864672C4143F4002DF617 /* Assets.xcassets */,
 				6D9864692C4143F4002DF617 /* LaunchScreen.storyboard */,
 				6D98646C2C4143F4002DF617 /* Info.plist */,
+				6D0A0EC52C8149C30034E070 /* ZenMaruGothic-Regular.ttf */,
 			);
 			path = Hobby;
 			sourceTree = "<group>";
@@ -164,6 +255,11 @@
 			dependencies = (
 			);
 			name = Hobby;
+			packageProductDependencies = (
+				6D0124DB2C5F3E8200E3B975 /* Realm */,
+				6D0124DD2C5F3E8200E3B975 /* RealmSwift */,
+				6D0A0EC12C8146130034E070 /* DGCharts */,
+			);
 			productName = Hobby;
 			productReference = 6D98645B2C4143F2002DF617 /* Hobby.app */;
 			productType = "com.apple.product-type.application";
@@ -236,6 +332,10 @@
 				Base,
 			);
 			mainGroup = 6D9864522C4143F2002DF617;
+			packageReferences = (
+				6D0124DA2C5F3E8200E3B975 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				6D0A0EBF2C8144990034E070 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = 6D98645C2C4143F2002DF617 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -252,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0A0EC62C8149C40034E070 /* ZenMaruGothic-Regular.ttf in Resources */,
 				6D98646B2C4143F4002DF617 /* LaunchScreen.storyboard in Resources */,
 				6D9864682C4143F4002DF617 /* Assets.xcassets in Resources */,
 				6D9864662C4143F2002DF617 /* Main.storyboard in Resources */,
@@ -282,12 +383,26 @@
 				6D33F96F2C5A64EF0061592D /* LoginViewController.swift in Sources */,
 				6D9864632C4143F2002DF617 /* ViewController.swift in Sources */,
 				6D98645F2C4143F2002DF617 /* AppDelegate.swift in Sources */,
+				6D0124D12C5F2C3200E3B975 /* DataRequest.swift in Sources */,
 				6D9864932C527C1B002DF617 /* Signup3ViewController.swift in Sources */,
 				6D98648F2C526A75002DF617 /* SignupViewController.swift in Sources */,
+				6DA62A6A2C6F28B900C2CA5D /* QuestionViewController.swift in Sources */,
+				6DA62A662C6F233500C2CA5D /* Notice4ViewController.swift in Sources */,
+				6D0124E62C60DAB300E3B975 /* NoticeViewController.swift in Sources */,
+				6D0124CF2C5F1F1100E3B975 /* Datas.swift in Sources */,
 				6D9864612C4143F2002DF617 /* SceneDelegate.swift in Sources */,
+				6D0124E42C5F9D4000E3B975 /* Color.swift in Sources */,
+				6DA62A682C6F24C400C2CA5D /* MapViewController.swift in Sources */,
+				6D0124E02C5F737F00E3B975 /* StartViewController.swift in Sources */,
+				6DA8FAE12C6DC70D00A63269 /* Notice2ViewController.swift in Sources */,
+				6DA62A602C6E313400C2CA5D /* GraphPViewController.swift in Sources */,
+				6DA62A622C6E314300C2CA5D /* GraphHViewController.swift in Sources */,
+				6D0A0EC82C8152410034E070 /* ViewCustom.swift in Sources */,
 				6D33F96B2C5A3DAB0061592D /* Signup4ViewController.swift in Sources */,
 				6D9864912C527C0B002DF617 /* Signup2ViewController.swift in Sources */,
+				6D0124E22C5F9CB200E3B975 /* Encounter.swift in Sources */,
 				6D33F9712C5B00A60061592D /* Mypage2ViewController.swift in Sources */,
+				6DA62A642C6E45E100C2CA5D /* Notice3ViewController.swift in Sources */,
 				6D33F96D2C5A3DBE0061592D /* MypageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,6 +580,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hobby/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -492,6 +608,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hobby/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -517,8 +634,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 1.0;
@@ -536,8 +655,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 1.0;
@@ -554,8 +675,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.shiiba.yuna.HobbyUITests;
@@ -571,8 +694,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BZN8Q7C763;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.shiiba.yuna.HobbyUITests;
@@ -624,6 +749,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6D0124DA2C5F3E8200E3B975 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 10.33.0;
+			};
+		};
+		6D0A0EBF2C8144990034E070 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6D0124DB2C5F3E8200E3B975 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D0124DA2C5F3E8200E3B975 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		6D0124DD2C5F3E8200E3B975 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D0124DA2C5F3E8200E3B975 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		6D0A0EC12C8146130034E070 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D0A0EBF2C8144990034E070 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6D9864532C4143F2002DF617 /* Project object */;
 }

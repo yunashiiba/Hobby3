@@ -10,8 +10,10 @@ import UIKit
 class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
     
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var AgePickerView : UIPickerView!
     @IBOutlet weak var CountryPickerView : UIPickerView!
+    @IBOutlet weak var miniview: UIView!
     
     var buttons : [UIButton] = []
     var results : [String] = []
@@ -20,6 +22,10 @@ class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shadowButton(from: nextButton)
+        shadowButton(from: backButton)
+        miniview.layer.cornerRadius = 5
 
         AgePickerView.delegate = self
         AgePickerView.dataSource = self
@@ -38,6 +44,7 @@ class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             let button = self.view.viewWithTag(i) as! UIButton
             button.addTarget(self, action: #selector(Signup2ViewController.tap), for: .touchUpInside)
             buttons.append(button)
+            shadowButton(from: button)
         }
     }
     

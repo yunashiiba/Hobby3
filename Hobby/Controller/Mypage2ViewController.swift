@@ -13,65 +13,54 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet var SearchTextfield : UITextField!
     @IBOutlet weak var alartLabel: UILabel!
     @IBOutlet var backButton: UIButton!
+    @IBOutlet var okButton: UIButton!
+    @IBOutlet var newButton: UIButton!
+    @IBOutlet weak var miniview: UIView!
     
     var datas : [String] = []
     var buttons : [UIButton] = []
     var labels : [UILabel] = []
+    var imageviews: [UIImageView] = []
     
     var selected = 0
     
+    var starthobby: [String] = []
     var hobby: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shadowButton(from: newButton)
+        shadowButton(from: okButton)
+        getAllTextFields(from: miniview)
+        miniview.layer.cornerRadius = 5
 
         HobbyPickerView.delegate = self
         HobbyPickerView.dataSource = self
-        
-        fetch(url:"request_hobby") { [self] hobbies, error in
-            if let error = error {
-                print("Failed to fetch user IDs: \(error)")
-                return
-            }
-            if let hobbies = hobbies as? [[Any]]{
-                if (hobbies as AnyObject).count > 0{
-                    var datas: [(String, Int)] = []
-                    for hobby in hobbies {
-                        if let hobbyName = hobby[0] as? String, let hobbyCount = hobby[1] as? Int {
-                            datas.append((String(hobbyName), hobbyCount))
-                        }
-                    }
-                    datas = datas.sorted { $0.1 > $1.1 }
-                    
-                    self.hobby = datas.map { $0.0 }
-                    DispatchQueue.main.async { [self] in
-                        HobbyPickerView.reloadAllComponents()
-                    }
-                    print("User IDs: \(hobbies)")
-                }
-            } else {
-                print("No user IDs found")
-            }
-        }
+        SearchTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
             let label = self.view.viewWithTag(i+3) as! UILabel
-            button.addTarget(self, action: #selector(Signup3ViewController.tap), for: .touchUpInside)
+            let image = self.view.viewWithTag(i + 6) as! UIImageView
+            button.addTarget(self, action: #selector(Mypage2ViewController.tap), for: .touchUpInside)
+            button.layer.cornerRadius = 10
             buttons.append(button)
             labels.append(label)
+            imageviews.append(image)
         }
+        connect()
         
         labelset()
     }
     
     @objc func tap(_ sender:UIButton) {
-        datas[sender.tag + 4] = ""
+        datas[sender.tag + 5] = ""
         labelset()
     }
     
     func labelset(){
-        let subArray = Array(datas[5...7])
+        let subArray = Array(datas[6...8])
         let nonEmptyStrings = subArray.filter { !$0.isEmpty }
         let emptyStrings = subArray.filter { $0.isEmpty }
         let sortedSubArray = nonEmptyStrings + emptyStrings
@@ -81,15 +70,12 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }else{
             backButton.isEnabled = false
         }
-        datas.replaceSubrange(5...7, with: sortedSubArray)
+        datas.replaceSubrange(6...8, with: sortedSubArray)
         
         for i in 0...2{
-            labels[i].text = datas[i+5]
-            if labels[i].text != "" {
-                buttons[i].isHidden = false
-            }else{
-                buttons[i].isHidden = true
-            }
+            labels[i].text = datas[i+6]
+            buttons[i].isHidden = labels[i].text == ""
+            imageviews[i].isHidden = labels[i].text == ""
         }
     }
     
@@ -106,21 +92,26 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         selected = row
     }
     
-    @IBAction func hobbySearch(){
-        if let newHobby = SearchTextfield?.text, !newHobby.isEmpty {
-            if let index = self.hobby.firstIndex(of: newHobby) {
-                self.HobbyPickerView.selectRow(index, inComponent: 0, animated: true)
-                selected = index
+    @objc func textFieldDidChange(sender: UITextField) {
+        if let newHobby = sender.text, !newHobby.isEmpty {
+            self.hobby = self.starthobby
+            self.hobby = self.hobby.filter { $0.contains(newHobby) }
+            if self.hobby.count != 0 {
                 self.HobbyPickerView.reloadAllComponents()
                 alartLabel.text = ""
             }else{
+                self.hobby = self.starthobby
                 alartLabel.text = "ないです"
             }
+        } else {
+            self.hobby = self.starthobby
+            self.HobbyPickerView.reloadAllComponents()
+            alartLabel.text = ""
         }
     }
     
     @IBAction func hobbySerect(){
-        let subArray = Array(datas[5...7])
+        let subArray = Array(datas[6...8])
         let nonEmptyStrings = subArray.filter { !$0.isEmpty }
         var emptyStrings = subArray.filter { $0.isEmpty }
         if emptyStrings.count > 0 {
@@ -134,12 +125,14 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             alartLabel.text = "3つまでです"
         }
         let sortedSubArray = nonEmptyStrings + emptyStrings
-        datas.replaceSubrange(5...7, with: sortedSubArray)
+        datas.replaceSubrange(6...8, with: sortedSubArray)
         
         labelset()
     }
     
     @IBAction func hobbyCreate() {
+        self.hobby = self.starthobby
+        self.HobbyPickerView.reloadAllComponents()
         let alertView = UIAlertController(
             title: "Hobbyを追加",
             message: "",
@@ -156,6 +149,7 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                     self.HobbyPickerView.selectRow(index, inComponent: 0, animated: true)
                 } else {
                     self.hobby.append(newHobby)
+                    self.starthobby = self.hobby
                     self.HobbyPickerView.reloadAllComponents()
                     self.selected = self.hobby.count - 1
                     self.HobbyPickerView.selectRow(self.hobby.count - 1, inComponent: 0, animated: true)
@@ -169,7 +163,68 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         alertView.addAction(cancelAction)
         present(alertView, animated: true, completion: nil)
     }
+    
+    func connect() {
+        waitingAnimation(Motherview: self.view)
+        fetch(url: "request_hobby") { [weak self] hobbies, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Failed to fetch user IDs: \(error)")
+                    self.neterror()
+                    return
+                }
+                if let hobbies = hobbies as? [[Any]] {
+                    if !hobbies.isEmpty {
+                        var datas: [(String, Int)] = []
+                        for hobby in hobbies {
+                            if let hobbyName = hobby[0] as? String, let hobbyCount = hobby[1] as? Int {
+                                datas.append((String(hobbyName), hobbyCount))
+                            }
+                        }
+                        datas.sort { $0.1 > $1.1 }
+                        
+                        self.starthobby = datas.map { $0.0 }
+                        self.hobby = self.starthobby
+                        self.HobbyPickerView.reloadAllComponents()
+                        self.labelset()
+                        
+                        for _ in 0...3 {
+                            let remove = self.view.viewWithTag(100)
+                            remove?.removeFromSuperview()
+                        }
+                        print("User IDs: \(hobbies)")
+                    }
+                } else {
+                    print("No user IDs found")
+                    self.neterror()
+                }
+            }
+        }
+    }
 
+    func neterror() {
+        for _ in 0...3 {
+            let remove = self.view.viewWithTag(100)
+            remove?.removeFromSuperview()
+        }
+        
+        let alertView = UIAlertController(
+            title: "エラー",
+            message: "ネットワークエラーです",
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default) {_ in
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+        let reaction = UIAlertAction(title: "再読み込み", style: .default) {_ in
+            self.connect()
+        }
+        alertView.addAction(action)
+        alertView.addAction(reaction)
+        
+        self.present(alertView, animated: true, completion: nil)
+    }
 
     
     @IBAction func back(_ sender: UIStoryboardSegue) {
