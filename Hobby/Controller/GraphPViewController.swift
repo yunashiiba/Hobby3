@@ -33,6 +33,8 @@ class GraphPViewController: UIViewController {
         
         if encounters.count > 0{
             hobbyset()
+        }else{
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -75,7 +77,8 @@ class GraphPViewController: UIViewController {
 
 
     func displayChart(dataEntries: [ChartDataEntry], sortedDates: [String]) {
-        chartView = LineChartView(frame: CGRect(x: miniView.frame.minX, y: 300, width: miniView.frame.width, height: miniView.frame.width))
+        chartView = LineChartView()
+        chartView.translatesAutoresizingMaskIntoConstraints = false
         
         let chartDataSet = LineChartDataSet(entries: dataEntries)
         chartDataSet.lineWidth = 5.0
@@ -103,7 +106,15 @@ class GraphPViewController: UIViewController {
         chartView.isUserInteractionEnabled = false
         chartView.extraTopOffset = 20
         
-        view.addSubview(chartView)
+        miniView.addSubview(chartView)
+        
+        NSLayoutConstraint.activate([
+            chartView.leadingAnchor.constraint(equalTo: miniView.leadingAnchor),
+            chartView.trailingAnchor.constraint(equalTo: miniView.trailingAnchor),
+            chartView.topAnchor.constraint(equalTo: miniView.topAnchor, constant: 150),
+            chartView.bottomAnchor.constraint(equalTo: miniView.bottomAnchor, constant: -50)
+        ])
+
     }
     
     @IBAction func back(){

@@ -9,9 +9,11 @@
 
 import UIKit
 import RealmSwift
+import CoreBluetooth
 
 class ViewController: UIViewController {
     
+    var bluetoothManager: BluetoothManager!
     let realm = try! Realm()
     var userId = 0
     
@@ -20,6 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet var graphButton : UIButton!
     @IBOutlet var mapButton : UIButton!
     @IBOutlet var screenView : UIView!
+    @IBOutlet var miniView: UIView!
     
     var nowhobby = 0
     var nowdisplay = 0
@@ -32,34 +35,46 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        noticeSet()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
+        shadowView(from: miniView)
+        shadowView(from: screenView)
         
         let user = realm.objects(UserData.self)
-        if user.count == 0 {
+        if user.count == 0{
             performSegue(withIdentifier: "toStart", sender: self)
+        }else{
+            start()
         }
+    }
+    
+    func start(){
+        bluetoothManager = BluetoothManager()
+        bluetoothManager.startScanning()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(encounting), name: NSNotification.Name(rawValue: "BluetoothMessageReceived"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let saveData: UserDefaults = UserDefaults.standard
+        if saveData.object(forKey: "start") != nil {
+            if saveData.object(forKey: "start") as! Int == 1 {
+                start()
+                saveData.set(0 ,forKey: "start")
+        }}
+        
         let user = realm.objects(UserData.self)
-        if user.count > 0 {
+        if user.count == 0 {
+            performSegue(withIdentifier: "toStart", sender: self)
+        }else{
             userId = user[0].id
             hobbies = [user[0].hobby1,user[0].hobby2,user[0].hobby3]
-        }else{
-            performSegue(withIdentifier: "toStart", sender: self)
-            return
+            noticeSet()
+            buttonset()
+            labelset()
+            ifnotice()
         }
-        
-        buttonset()
-        labelset()
-        
-        ifnotice()
     }
     
     @IBAction func tograph(){
@@ -103,9 +118,10 @@ class ViewController: UIViewController {
     
     
     func buttonset(){
+        
         let hobbybutton = self.view.viewWithTag(nowhobby+1) as! UIButton
         hobbybutton.isSelected = true
-        hobbybutton.backgroundColor = .red
+        hobbybutton.backgroundColor = UIColor(hex: "#CBECFF")
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
@@ -116,16 +132,18 @@ class ViewController: UIViewController {
                 button.setTitle(hobbies[i-1], for: .normal)
                 hobbybuttons.append(button)
             }
+            shadowButton(from: button)
         }
         
         let displaybutton = self.view.viewWithTag(nowdisplay+4) as! UIButton
         displaybutton.isSelected = true
-        displaybutton.backgroundColor = .red
+        displaybutton.backgroundColor = UIColor(hex: "#CBECFF")
         
         for i in 4...5 {
             let button = self.view.viewWithTag(i) as! UIButton
             button.addTarget(self, action: #selector(ViewController.displaytap), for: .touchUpInside)
             displaybuttons.append(button)
+            shadowButton(from: button)
         }
     }
     
@@ -156,19 +174,18 @@ class ViewController: UIViewController {
         if user[0].screen == 2{
             performSegue(withIdentifier: "toNotice", sender: self)
         }
-        print("loadfinish")
     }
     
     @objc func hobbytap(_ sender:UIButton) {
         if !sender.isSelected {
             hobbybuttons.forEach({element in
                 element.isSelected = false
-                element.backgroundColor = .lightGray
+                element.backgroundColor = UIColor(hex: "#EDEFEE")
             })
             nowhobby = sender.tag - 1
         }
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? .red : .lightGray
+        sender.backgroundColor = sender.isSelected ? UIColor(hex: "#CBECFF") : UIColor(hex: "#EDEFEE")
         
         labelset()
     }
@@ -177,12 +194,12 @@ class ViewController: UIViewController {
         if !sender.isSelected {
             displaybuttons.forEach({element in
                 element.isSelected = false
-                element.backgroundColor = .lightGray
+                element.backgroundColor = UIColor(hex: "#EDEFEE")
             })
             nowdisplay = sender.tag - 4
         }
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? .red : .lightGray
+        sender.backgroundColor = sender.isSelected ? UIColor(hex: "#CBECFF") : UIColor(hex: "#EDEFEE")
         
         labelset()
     }
@@ -223,7 +240,7 @@ class ViewController: UIViewController {
         bubbleView.layer.cornerRadius = bubbleSize / 2
         bubbleView.clipsToBounds = true
         bubbleView.layer.borderWidth =  bubbleSize/30
-        bubbleView.layer.borderColor = UIColor(hex: "#ffffff").withAlphaComponent(0.8).cgColor
+        bubbleView.layer.borderColor = UIColor(hex: "#ffffff").cgColor
         bubbleView.tag = -1
         bubbleView.bubbleType = type
         bubbleView.bubbleColor = color
@@ -231,15 +248,15 @@ class ViewController: UIViewController {
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = bubbleView.bounds
-        var topColor = UIColor(red: 0.0, green: 0.0, blue: 0.73, alpha: 0.1).cgColor
+        var topColor = UIColor(red: 0.5, green: 0.5, blue: 0.8, alpha: 1).cgColor
         if type == 0 {
             if color != "" && color != "#ffffff"{
-                topColor = UIColor(hex: color).withAlphaComponent(0.5).cgColor
+                topColor = UIColor(hex: color).cgColor
             }else{
-                topColor = UIColor(hex: "#ffffff").withAlphaComponent(0.8).cgColor
+                topColor = UIColor(hex: "#ffffff").cgColor
             }
         }
-        let bottomColor = UIColor(hex: "#ffffff").withAlphaComponent(0.5).cgColor
+        let bottomColor = UIColor(hex: "#ffffff").cgColor
         let gradientColors: [CGColor] = [topColor, bottomColor]
         gradientLayer.colors = gradientColors
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
@@ -252,7 +269,7 @@ class ViewController: UIViewController {
         shinePath.move(to: CGPoint(x: bubbleSize * 0.9, y: bubbleSize * 0.5))
         shinePath.addLine(to: CGPoint(x: bubbleSize * 0.8, y: bubbleSize * 0.7))
         shineLayer.path = shinePath.cgPath
-        shineLayer.strokeColor = UIColor.white.withAlphaComponent(0.7).cgColor
+        shineLayer.strokeColor = UIColor.white.cgColor
         shineLayer.lineWidth = bubbleSize/30
         
         bubbleView.layer.addSublayer(shineLayer)
@@ -291,8 +308,8 @@ class ViewController: UIViewController {
         var newX: CGFloat = bubbleView.frame.origin.x
         var newY: CGFloat = bubbleView.frame.origin.y
         repeat {
-            let randomX = CGFloat.random(in: -50...50)
-            let randomY = CGFloat.random(in: -50...50)
+            let randomX = CGFloat.random(in: -30...60)
+            let randomY = CGFloat.random(in: -30...60)
             
             newX = bubbleView.frame.origin.x + randomX
             newY = bubbleView.frame.origin.y + randomY
@@ -417,6 +434,8 @@ class ViewController: UIViewController {
     }
     
     @objc func usertap(_ sender: UITapGestureRecognizer){
+        let countries = ["日本","中国","韓国","アメリカ","アジア","中東","欧州","アフリカ","北米","中南米","大洋州"]
+        
         if let label = sender.view as? UILabel{
             let id = -(label.tag + 2)
             if let encounter = realm.objects(Encount.self).filter("id == %@", id).first {
@@ -426,34 +445,22 @@ class ViewController: UIViewController {
                 
                 let hobbies = realm.objects(EncountHobby.self).filter("encount == %@", encounter.id)
                 var hobbylabel = ""
-                for hobby in hobbies{
-                    hobbylabel += "\(hobby.hobby)、"
+                if hobbies.count == 0{
+                    hobbylabel = "他にはないん"
+                }else{
+                    for hobby in hobbies{
+                        hobbylabel += "、\(hobby.hobby)"
+                    }
                 }
                 
                 let alertView = UIAlertController(
-                    title: "私の趣味は、"+hobbylabel+"だよ",
-                    message: dateKey,
+                    title: dateKey,
+                    message: "私の趣味は" + hobbylabel + "だよ\n私は" + countries[encounter.country] + "に住んでるよ",
                     preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "へえ", style: .cancel, handler: nil)
                 
                 alertView.addAction(cancelAction)
                 present(alertView, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    @IBAction func encount(){
-        encounted(id1: userId, id2: 1, x:38,y: 138) { result in
-            DispatchQueue.main.async {
-                if result != 0{
-                    if let user = self.realm.objects(UserData.self).first {
-                        try! self.realm.write {
-                            user.todayencount += 1
-                        }
-                    }
-                }
-                print("aaaaa")
-                print(result)
             }
         }
     }
@@ -476,6 +483,10 @@ class ViewController: UIViewController {
     
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
+    }
+    
+    @objc func encounting() {
+        //会った時
     }
     
 }

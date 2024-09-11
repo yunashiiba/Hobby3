@@ -38,13 +38,14 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         HobbyPickerView.delegate = self
         HobbyPickerView.dataSource = self
         SearchTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        SearchTextfield.delegate = self
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
             let label = self.view.viewWithTag(i+3) as! UILabel
             let image = self.view.viewWithTag(i + 6) as! UIImageView
             button.addTarget(self, action: #selector(Mypage2ViewController.tap), for: .touchUpInside)
-            button.layer.cornerRadius = 10
+            button.layer.cornerRadius = 20
             buttons.append(button)
             labels.append(label)
             imageviews.append(image)
@@ -135,11 +136,12 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         self.HobbyPickerView.reloadAllComponents()
         let alertView = UIAlertController(
             title: "Hobbyを追加",
-            message: "",
+            message: "※同じ趣味を登録する人が出るまで、すれ違いは起きません",
             preferredStyle: .alert)
         var textField: UITextField?
         alertView.addTextField { alertTextField in
             textField = alertTextField
+            textField!.delegate = self
         }
         
         let action = UIAlertAction(title: "OK", style: .default) { _ in
@@ -169,8 +171,7 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         fetch(url: "request_hobby") { [weak self] hobbies, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                if let error = error {
-                    print("Failed to fetch user IDs: \(error)")
+                if error != nil {
                     self.neterror()
                     return
                 }
@@ -193,10 +194,8 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                             let remove = self.view.viewWithTag(100)
                             remove?.removeFromSuperview()
                         }
-                        print("User IDs: \(hobbies)")
                     }
                 } else {
-                    print("No user IDs found")
                     self.neterror()
                 }
             }
@@ -241,6 +240,10 @@ class Mypage2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
 

@@ -7,11 +7,15 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var loginlabel : UILabel!
     @IBOutlet var miniview: UIView!
     @IBOutlet var button: UIButton!
+    @IBOutlet var textField1: UITextField!
+    @IBOutlet var textField2: UITextField!
+    
+    let saveData: UserDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +24,9 @@ class LoginViewController: UIViewController {
         shadowButton(from: button)
         miniview.layer.cornerRadius = 5
         
+        textField1.delegate = self
+        textField2.delegate = self
+        
         if let customFont = UIFont(name: "ZenMaruGothic-Regular", size: 20) {
             loginlabel.font = customFont
         }
@@ -27,6 +34,10 @@ class LoginViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @IBAction func login() {
@@ -48,7 +59,6 @@ class LoginViewController: UIViewController {
         
         guard let url = URL(string: urlset() + "request_login") else {
             neterror(id: 1)
-            print("Invalid URL")
             return
         }
 
@@ -61,7 +71,6 @@ class LoginViewController: UIViewController {
             request.httpBody = jsonData
         } catch {
             neterror(id: 1)
-            print("Error encoding JSON: \(error)")
             return
         }
         
@@ -71,18 +80,16 @@ class LoginViewController: UIViewController {
         
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
-            if let error = error {
+            if error != nil {
                 DispatchQueue.main.async {
                     self.neterror(id: 1)
                 }
-                print("Network Error: \(error.localizedDescription)")
                 return
             }
             guard let data = data else {
                 DispatchQueue.main.async {
                     self.neterror(id: 1)
                 }
-                print("No data received")
                 return
             }
             do {
@@ -90,30 +97,27 @@ class LoginViewController: UIViewController {
                 if let userdata = jsonData as? [[String]] {
                     DispatchQueue.main.async {
                         if userdata.count == 2 {
-                            print("Received data: \(userdata)")
+                            resetRealm()
                             toRealm(data: userdata[0])
                             toRealmEncount(data: userdata[1])
                             noticeSet()
+                            self.saveData.set(1 ,forKey: "start")
                             self.performSegue(withIdentifier: "unwindToMain", sender: self)
                         } else if userdata.count == 1 {
                             self.neterror(id: 0)
-                            print("Mistaken data: \(userdata)")
                         } else {
                             self.neterror(id: 1)
-                            print("Unexpected response count: \(userdata.count)")
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.neterror(id: 1)
                     }
-                    print("Failed to parse JSON")
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.neterror(id: 1)
                 }
-                print("Error decoding response: \(error.localizedDescription)")
             }
         }
         task.resume()
@@ -137,7 +141,9 @@ class LoginViewController: UIViewController {
             preferredStyle: .alert)
         
         let action = UIAlertAction(title: "OK", style: .default) {_ in
-            self.performSegue(withIdentifier: "unwindToStart", sender: self)
+            if id != 0{
+                self.performSegue(withIdentifier: "unwindToStart", sender: self)
+            }
         }
         let reaction = UIAlertAction(title: "再読み込み", style: .default) {_ in
             self.connect()

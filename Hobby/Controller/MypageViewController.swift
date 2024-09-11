@@ -11,7 +11,6 @@ import RealmSwift
 
 class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIColorPickerViewControllerDelegate {
     
-    @IBOutlet var nameLabel: UILabel!
     @IBOutlet var idLabel: UILabel!
     @IBOutlet var countryLabel: UILabel!
     @IBOutlet var ageLabel: UILabel!
@@ -19,15 +18,16 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet var colorView: UIView!
     @IBOutlet var backButton: UIButton!
     @IBOutlet var alartLabel: UILabel!
+    @IBOutlet weak var miniview: UIView!
     
     let realm = try! Realm()
+    var bluetoothManager: BluetoothManager!
     
     var colorPicker = UIColorPickerViewController()
     var datas: [String] = []
     
     let countries = ["日本","中国","韓国","アメリカ","アジア","中東","欧州","アフリカ","北米","中南米","大洋州"]
     
-    var buttons : [UIButton] = []
     var labels : [UILabel] = []
     
     var pickerrow = ""
@@ -35,11 +35,11 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        miniview.layer.cornerRadius = 5
+        shadowView(from: colorView)
+        
         for i in 1...3 {
-            let button = self.view.viewWithTag(i) as! UIButton
-            let label = self.view.viewWithTag(i+3) as! UILabel
-            button.addTarget(self, action: #selector(MypageViewController.tap), for: .touchUpInside)
-            buttons.append(button)
+            let label = self.view.viewWithTag(i) as! UILabel
             labels.append(label)
         }
         
@@ -52,6 +52,8 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             datas = toData()
             labelset()
             hobbyset()
+        }else{
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -69,34 +71,16 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {}
     
     
-    @objc func tap(_ sender:UIButton) {
-        datas[sender.tag + 5] = ""
-        hobbyset()
-    }
-    
-    @IBAction func namechange() {
+    @IBAction func passwatch(){
         let alertView = UIAlertController(
-            title: "名前を変更",
-            message: "",
+            title: "パスワード",
+            message: datas[0],
             preferredStyle: .alert)
-        var textField: UITextField?
-        alertView.addTextField { alertTextField in
-            textField = alertTextField
-        }
         
-        let action = UIAlertAction(title: "OK", style: .default) { [self] _ in
-            if textField?.text != nil && textField?.text != ""{
-                datas[0] = (textField?.text)!
-                labelset()
-            }
-        }
-        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
-
-        alertView.addAction(action)
+        let cancelAction = UIAlertAction(title: "へえ", style: .cancel, handler: nil)
         alertView.addAction(cancelAction)
-        present(alertView, animated: true, completion: nil)
+        self.present(alertView, animated: true, completion: nil)
     }
-    
     @IBAction func agechange(){
         sawalart(int: 2)
     }
@@ -136,7 +120,6 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func labelset(){
-        nameLabel.text = datas[0]
         idLabel.text = datas[1]
         ageLabel.text = "年齢：" + String(datas[2]) + "0代"
         countryLabel.text = "住んでる国：" + countries[Int(datas[3])!]
@@ -158,11 +141,6 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         for i in 0...2{
             labels[i].text = datas[i+6]
-            if labels[i].text != "" {
-                buttons[i].isHidden = false
-            }else{
-                buttons[i].isHidden = true
-            }
         }
     }
     
@@ -186,21 +164,18 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let jsonData = try JSONEncoder().encode(datas)
             request.httpBody = jsonData
         } catch {
-            print("Error encoding user: \(error)")
             neterror()
             return
         }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Network Error: \(error.localizedDescription)")
+            if error != nil {
                 DispatchQueue.main.async {
                     self.neterror()
                 }
                 return
             }
             guard let data = data else {
-                print("No data received")
                 DispatchQueue.main.async {
                     self.neterror()
                 }
@@ -210,25 +185,21 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
                 if let userdata = jsonData as? [String] {
                     if userdata.count == 9 {
-                        print("Received data: \(userdata)")
                         DispatchQueue.main.async {
                             toRealm(data: userdata)
                             self.presentingViewController?.dismiss(animated: true, completion: nil)
                         }
                     } else {
-                        print("Unexpected response count: \(userdata.count)")
                         DispatchQueue.main.async {
                             self.neterror()
                         }
                     }
                 } else {
-                    print("Failed to parse JSON")
                     DispatchQueue.main.async {
                         self.neterror()
                     }
                 }
             } catch {
-                print("Error decoding response: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     self.neterror()
                 }
@@ -277,8 +248,25 @@ class MypageViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func logout(){
-        resetRealm()
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
+        let alertView = UIAlertController(
+            title: "確認",
+            message: "ログアウトしますか？",
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "はい", style: .default) {_ in
+            resetRealm()
+            let lcNotification = UNUserNotificationCenter.current()
+            lcNotification.removeAllPendingNotificationRequests()
+            self.bluetoothManager = BluetoothManager()
+            self.bluetoothManager.stopScanning()
+            
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel, handler: nil)
+        alertView.addAction(action)
+        alertView.addAction(cancelAction)
+        
+        self.present(alertView, animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

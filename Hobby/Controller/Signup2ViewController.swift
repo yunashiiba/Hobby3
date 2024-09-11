@@ -38,7 +38,7 @@ class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         CountryPickerView.selectRow(Int(results[5])!, inComponent: 0, animated: false)
         let button = self.view.viewWithTag(Int(results[3])! + 1) as! UIButton
         button.isSelected = true
-        button.backgroundColor = .red
+        button.backgroundColor = UIColor(hex: "#CBECFF")
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
@@ -52,12 +52,12 @@ class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         if !sender.isSelected {
             buttons.forEach({element in
                 element.isSelected = false
-                element.backgroundColor = .lightGray
+                element.backgroundColor = UIColor(hex: "#EDEFEE")
             })
             results[3] = "\(sender.tag - 1)"
         }
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? .red : .lightGray
+        sender.backgroundColor = sender.isSelected ? UIColor(hex: "#CBECFF") : UIColor(hex: "#EDEFEE")
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -109,7 +109,7 @@ class Signup2ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             CountryPickerView.selectRow(Int(results[5])!, inComponent: 0, animated: false)
             let button = self.view.viewWithTag(Int(results[3])! + 1) as! UIButton
             button.isSelected = true
-            button.backgroundColor = .red
+            button.backgroundColor = UIColor(hex: "#CBECFF")
         }
     }
     

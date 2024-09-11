@@ -4,12 +4,14 @@
 //
 //  Created by 椎葉友渚 on 2024/08/15.
 //
-
 import UIKit
 import RealmSwift
 import DGCharts
 
 class Notice3ViewController: UIViewController {
+    
+    @IBOutlet var miniView: UIView!
+    @IBOutlet var nextButton: UIButton!
     
     let realm = try! Realm()
     var dailyCounts: [String: Int] = [:]
@@ -23,6 +25,9 @@ class Notice3ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        shadowButton(from: nextButton)
+        miniView.layer.cornerRadius = 5
+        
         let user = realm.objects(UserData.self)
         try! realm.write {
             user[0].todayencount = 0
@@ -32,7 +37,7 @@ class Notice3ViewController: UIViewController {
         buttonset()
         let encounters = realm.objects(Encount.self).filter("hobby == %@", hobbies[nowhobby])
         
-        if encounters.count > 0{
+        if encounters.count > 0 {
             hobbyset()
         }
     }
@@ -40,7 +45,7 @@ class Notice3ViewController: UIViewController {
     func buttonset() {
         let hobbybutton = self.view.viewWithTag(1) as! UIButton
         hobbybutton.isSelected = true
-        hobbybutton.backgroundColor = .red
+        hobbybutton.backgroundColor = UIColor(hex: "#CBECFF")
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
@@ -51,6 +56,7 @@ class Notice3ViewController: UIViewController {
                 button.setTitle(hobbies[i-1], for: .normal)
                 hobbybuttons.append(button)
             }
+            shadowButton(from: button)
         }
     }
     
@@ -58,19 +64,19 @@ class Notice3ViewController: UIViewController {
         if !sender.isSelected {
             hobbybuttons.forEach { element in
                 element.isSelected = false
-                element.backgroundColor = .lightGray
+                element.backgroundColor = UIColor(hex: "#EDEFEE")
             }
             nowhobby = sender.tag - 1
         }
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? .red : .lightGray
+        sender.backgroundColor = sender.isSelected ? UIColor(hex: "#CBECFF") : UIColor(hex: "#EDEFEE")
         
         chartView?.removeFromSuperview()
         chartView = nil
         dailyCounts = [:]
         
         let encounters = realm.objects(Encount.self).filter("hobby == %@", hobbies[nowhobby])
-        if encounters.count > 0{
+        if encounters.count > 0 {
             hobbyset()
         }
     }
@@ -112,9 +118,9 @@ class Notice3ViewController: UIViewController {
         displayChart(dataEntries: dataEntries, sortedDates: sortedDates)
     }
 
-
     func displayChart(dataEntries: [ChartDataEntry], sortedDates: [String]) {
-        chartView = LineChartView(frame: CGRect(x: 0, y: 300, width: view.frame.width, height: 400))
+        chartView = LineChartView()
+        chartView.translatesAutoresizingMaskIntoConstraints = false
         
         let chartDataSet = LineChartDataSet(entries: dataEntries)
         chartDataSet.lineWidth = 5.0
@@ -142,7 +148,14 @@ class Notice3ViewController: UIViewController {
         chartView.isUserInteractionEnabled = false
         chartView.extraTopOffset = 20
         
-        view.addSubview(chartView)
+        miniView.addSubview(chartView)
+        
+        NSLayoutConstraint.activate([
+            chartView.leadingAnchor.constraint(equalTo: miniView.leadingAnchor),
+            chartView.trailingAnchor.constraint(equalTo: miniView.trailingAnchor),
+            chartView.topAnchor.constraint(equalTo: miniView.topAnchor, constant: 120),
+            chartView.bottomAnchor.constraint(equalTo: miniView.bottomAnchor, constant: -60)
+        ])
     }
 }
 
@@ -168,4 +181,3 @@ class DateValueFormatter: NSObject, AxisValueFormatter {
         return ""
     }
 }
-

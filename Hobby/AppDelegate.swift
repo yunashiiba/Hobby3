@@ -23,8 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if let customFont = UIFont(name: "ZenMaruGothic-Regular", size: 17) {
             UILabel.appearance().font = customFont
-            UITextField.appearance().font = customFont
-            UITextView.appearance().font = customFont
         }
         
         return true

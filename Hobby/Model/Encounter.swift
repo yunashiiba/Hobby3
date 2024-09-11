@@ -30,7 +30,6 @@ func encounted(id1: Int, id2: Int, x: Float, y: Float, completion: @escaping (In
     let datas = EncounterData(id1: id1, id2: id2, x: x, y: y, option: option)
     
     guard let url = URL(string: urlset() + "encounter") else {
-        print("Invalid URL")
         completion(0)
         return
     }
@@ -43,7 +42,6 @@ func encounted(id1: Int, id2: Int, x: Float, y: Float, completion: @escaping (In
         let jsonData = try JSONEncoder().encode(datas)
         request.httpBody = jsonData
     } catch {
-        print("Error encoding JSON: \(error)")
         completion(0)
         return
     }
@@ -53,14 +51,12 @@ func encounted(id1: Int, id2: Int, x: Float, y: Float, completion: @escaping (In
     let session = URLSession(configuration: config)
     
     let task = session.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("Network Error: \(error.localizedDescription)")
+        if error != nil {
             completion(0)
             return
         }
         
         guard let data = data else {
-            print("No data received")
             completion(0)
             return
         }
@@ -70,20 +66,16 @@ func encounted(id1: Int, id2: Int, x: Float, y: Float, completion: @escaping (In
             if let dataArray = jsonData as? [String] {
                 DispatchQueue.main.async {
                     if dataArray.count > 0 {
-                        print("Received data: \(dataArray)")
                         completion(2)
                         toRealmEncount(data: dataArray)
                     } else {
-                        print("noHobby")
                         completion(1)
                     }
                 }
             } else {
-                print("Failed to parse JSON")
                 completion(0)
             }
         } catch {
-            print("Error decoding response: \(error.localizedDescription)")
             completion(0)
         }
     }

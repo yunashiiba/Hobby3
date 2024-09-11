@@ -4,14 +4,14 @@
 //
 //  Created by 椎葉友渚 on 2024/08/04.
 //
-//data = [0"name",1"user_id",2"age",3"country",4"color",5"id",6"hobby",7"hobby",8"hobby"]
+//data = [0"passwprd",1"user_id",2"age",3"country",4"color",5"id",6"hobby",7"hobby",8"hobby"]
 
 import Foundation
 import RealmSwift
 import UIKit
 
 class UserData: Object{
-    @objc dynamic var name: String = ""
+    @objc dynamic var passwprd: String = ""
     @objc dynamic var user_id: String = ""
     @objc dynamic var age: Int = 0
     @objc dynamic var country: Int = 0
@@ -46,13 +46,6 @@ class EncountHobby: Object{
     @objc dynamic var motherhobby: String = ""
 }
 
-//あとでやろう
-//class RealmService {
-//    static let shared = RealmService()
-//    
-//    let realm = try! Realm()
-//}
-
 func resetRealm(){
     let realm = try! Realm()
     try! realm.write {
@@ -72,7 +65,6 @@ func toRealm(data: [String]){
     
     try! realm.write {
         if let user = userData {
-            user.name = data[0]
             user.age = Int(data[2]) ?? 0
             user.country = Int(data[3]) ?? 0
             user.hobby1 = data[6]
@@ -82,7 +74,7 @@ func toRealm(data: [String]){
             user.id = Int(data[5]) ?? 0
         } else {
             let newUser = UserData()
-            newUser.name = data[0]
+            newUser.passwprd = data[0]
             newUser.user_id = data[1]
             newUser.age = Int(data[2]) ?? 0
             newUser.country = Int(data[3]) ?? 0
@@ -103,7 +95,7 @@ func toData() -> [String]{
     let userData: UserData? = realm.objects(UserData.self).first
     
     if let userData = userData {
-        data  += [userData.name, userData.user_id, String(userData.age), String(userData.country), userData.color, String(userData.id), userData.hobby1, userData.hobby2, userData.hobby3]
+        data  += [userData.passwprd, userData.user_id, String(userData.age), String(userData.country), userData.color, String(userData.id), userData.hobby1, userData.hobby2, userData.hobby3]
     }
     
     return data

@@ -14,7 +14,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var pass1Label: UILabel!
     @IBOutlet weak var pass2Label: UILabel!
     @IBOutlet weak var miniview: UIView!
-    var results = ["","","","0","0","0","","","","#eeeeee"]
+    var results = ["non","","","0","0","0","","","","#eeeeee"]
     var password = ""
     var userids : [String] = []
     
@@ -39,8 +39,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         waitingAnimation(Motherview: self.view)
         fetch(url:"request_userid") { [self] userIds, error in
             DispatchQueue.main.async { [self] in
-                if let error = error {
-                    print("Failed to fetch user IDs: \(error)")
+                if error != nil {
                     self.neterror()
                     return
                 }
@@ -50,9 +49,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                         let remove = self.view.viewWithTag(100)
                         remove?.removeFromSuperview()
                     }
-                    print("User IDs: \(userIds)")
                 } else {
-                    print("No user IDs found")
                     self.neterror()
                 }
             }
@@ -86,6 +83,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     func getTextFields(from view: UIView) {
         for subview in view.subviews {
@@ -100,10 +101,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let allowedCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890")
         let unwantedStr = textField.text!.trimmingCharacters(in: allowedCharacters)
-        if textField.tag == 1{
-            results[0] = textField.text!
-            filein()
-        }else if textField.tag == 2{
+        if textField.tag == 2{
             if unwantedStr.count == 1 && unwantedStr.prefix(1) == "@" && textField.text!.count > 1 && userids.firstIndex(of:textField.text!) == nil{
                 userLabel.text = "OK!"
                 results[1] = textField.text!
@@ -114,7 +112,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 userLabel.text = "@で初めてね"
                 results[1] = ""
             } else if unwantedStr.count > 1{
-                userLabel.text = "英、数しか使えないよ"
+                userLabel.text = "半角の英、数しか使えないよ"
                 results[1] = ""
             }
         }else if textField.tag == 3{
@@ -126,7 +124,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                     pass1Label.text = "password四文字以上でお願い"
                 }
             }else {
-                pass1Label.text = "英数しか使えないよ"
+                pass1Label.text = "半角の英数しか使えないよ"
             }
         }else if textField.tag == 4{
             if textField.text == password {

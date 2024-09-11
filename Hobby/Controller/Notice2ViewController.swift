@@ -13,6 +13,9 @@ class Notice2ViewController: UIViewController {
     let realm = try! Realm()
     var nowtap = 0
     @IBOutlet var letterLabel: UILabel!
+    @IBOutlet var miniView: UIView!
+    @IBOutlet var nextButton: UIButton!
+    @IBOutlet var backButton: UIButton!
     
     var recentRecords: Results<Encount>?
     var topHobbies: [String] = []
@@ -20,6 +23,10 @@ class Notice2ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shadowView(from: miniView)
+        shadowButton(from: nextButton)
+        shadowButton(from: backButton)
         
         let now = Date()
         var calendar = Calendar.current

@@ -41,4 +41,12 @@ extension UIColor {
                      Int(green * 255.0),
                      Int(blue * 255.0))
    }
+    
+    static func randomYellowToBlue() -> UIColor {
+        let randomRed = CGFloat.random(in: 0...1)
+        let randomGreen = CGFloat.random(in: 0...1)
+        let randomBlue = CGFloat(1.0 - randomRed)
+        
+        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+    }
 }

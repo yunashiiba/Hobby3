@@ -28,6 +28,8 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var starthobby: [String] = []
     var hobby: [String] = []
     
+    let saveData: UserDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,12 +43,14 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         HobbyPickerView.delegate = self
         HobbyPickerView.dataSource = self
         SearchTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        SearchTextfield.delegate = self
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
             let label = self.view.viewWithTag(i + 3) as! UILabel
             let image = self.view.viewWithTag(i + 6) as! UIImageView
             button.addTarget(self, action: #selector(Signup4ViewController.tap), for: .touchUpInside)
+            button.layer.cornerRadius = 20
             buttons.append(button)
             labels.append(label)
             imageviews.append(image)
@@ -97,8 +101,7 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         fetch(url: "request_hobby") { [weak self] hobbies, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                if let error = error {
-                    print("Failed to fetch user IDs: \(error)")
+                if error != nil {
                     self.neterror(id: 0)
                     return
                 }
@@ -121,10 +124,8 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                             let remove = self.view.viewWithTag(100)
                             remove?.removeFromSuperview()
                         }
-                        print("User IDs: \(hobbies)")
                     }
                 } else {
-                    print("No user IDs found")
                     self.neterror(id: 0)
                 }
             }
@@ -142,7 +143,6 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             let jsonData = try JSONEncoder().encode(results)
             request.httpBody = jsonData
         } catch {
-            print("Error encoding user: \(error)")
             DispatchQueue.main.async {
                 self.neterror(id: 2)
             }
@@ -154,15 +154,13 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let session = URLSession(configuration: config)
         
         let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error: \(error)")
+            if error != nil {
                 DispatchQueue.main.async {
                     self.neterror(id: 2)
                 }
                 return
             }
             guard let data = data else {
-                print("No data received")
                 DispatchQueue.main.async {
                     self.neterror(id: 2)
                 }
@@ -172,21 +170,19 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
                 let userdata = jsonData as? [String]
                 if userdata != nil && userdata!.count == 9  {
-                    print(userdata!)
-                    
                     DispatchQueue.main.async {
+                        resetRealm()
                         toRealm(data: userdata!)
                         noticeSet()
+                        self.saveData.set(1 ,forKey: "start")
                         self.performSegue(withIdentifier: "unwindToMain", sender: self)
                     }
                 } else {
                     self.neterror(id: 2)
-                    print("Failed to parse JSON")
                 }
             } catch {
                 DispatchQueue.main.async {
                     self.neterror(id: 2)
-                    print("Error decoding response: \(error)")
                 }
             }
         }
@@ -264,11 +260,12 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         self.HobbyPickerView.reloadAllComponents()
         let alertView = UIAlertController(
             title: "Hobbyを追加",
-            message: "",
+            message: "※同じ趣味を登録する人が出るまで、すれ違いは起きません",
             preferredStyle: .alert)
         var textField: UITextField?
         alertView.addTextField { alertTextField in
             textField = alertTextField
+            textField!.delegate = self
         }
         
         let action = UIAlertAction(title: "OK", style: .default) { _ in
@@ -311,6 +308,10 @@ class Signup4ViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
 }

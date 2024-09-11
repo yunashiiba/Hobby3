@@ -2,22 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>ZenMaruGothic-Regular.ttf</string>
-	</array>
 	<key>NSExceptionDomains</key>
 	<dict>
 		<key>ngrpk-free.app</key>
 		<dict>
-			<key>NSExceptionRequiresForwardSecrecy</key>
-			<false/>
 			<key>NSExceptionAllowsInsecureHTTPLoads</key>
 			<true/>
+			<key>NSExceptionRequiresForwardSecrecy</key>
+			<false/>
 			<key>NSIncludesSubdomains</key>
 			<true/>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ZenMaruGothic-Regular.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

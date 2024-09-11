@@ -9,12 +9,11 @@ import Foundation
 import UIKit
 
 func urlset() -> String{
-    return "https://39f3-18-181-254-215.ngrok-free.app/"
+    return "https://hobby-yy.fly.dev/"
 }
 
 func fetch(url: String, completion: @escaping (Any?, Error?) -> Void) {
     guard let url = URL(string: urlset() + url) else {
-        print("Invalid URL")
         completion(nil, nil)
         return
     }
@@ -25,28 +24,17 @@ func fetch(url: String, completion: @escaping (Any?, Error?) -> Void) {
     
     let task = session.dataTask(with: url) { data, response, error in
         if let error = error as NSError? {
-            // Check if the error is a timeout error
-            if error.code == NSURLErrorTimedOut {
-                print("Request timed out.")
-            } else {
-                print("Error fetching data: \(error.localizedDescription)")
-            }
             completion(nil, error)
             return
         }
         guard let data = data else {
-            print("No data received")
             completion(nil, nil)
             return
-        }
-        if let responseString = String(data: data, encoding: .utf8) {
-            print("Response Data: \(responseString)")
         }
         do {
             let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
             completion(jsonData, nil)
         } catch {
-            print("Error decoding JSON: \(error.localizedDescription)")
             completion(nil, error)
         }
     }

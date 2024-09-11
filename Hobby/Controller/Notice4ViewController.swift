@@ -17,11 +17,16 @@ class Notice4ViewController: UIViewController, MKMapViewDelegate {
     var recentRecords: Results<Encount>?
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var miniView: UIView!
+    @IBOutlet var okButton: UIButton!
     
     var nowhobby = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shadowButton(from: okButton)
+        miniView.layer.cornerRadius = 5
         
         let now = Date()
         var calendar = Calendar.current
@@ -46,7 +51,7 @@ class Notice4ViewController: UIViewController, MKMapViewDelegate {
     func buttonset() {
         let hobbybutton = self.view.viewWithTag(1) as! UIButton
         hobbybutton.isSelected = true
-        hobbybutton.backgroundColor = .red
+        hobbybutton.backgroundColor = UIColor(hex: "#CBECFF")
         
         for i in 1...3 {
             let button = self.view.viewWithTag(i) as! UIButton
@@ -57,6 +62,7 @@ class Notice4ViewController: UIViewController, MKMapViewDelegate {
                 button.setTitle(hobbies[i-1], for: .normal)
                 hobbybuttons.append(button)
             }
+            shadowButton(from: button)
         }
     }
     
@@ -64,12 +70,12 @@ class Notice4ViewController: UIViewController, MKMapViewDelegate {
         if !sender.isSelected {
             hobbybuttons.forEach { element in
                 element.isSelected = false
-                element.backgroundColor = .lightGray
+                element.backgroundColor = UIColor(hex: "#EDEFEE")
             }
             nowhobby = sender.tag - 1
         }
         sender.isSelected = !sender.isSelected
-        sender.backgroundColor = sender.isSelected ? .red : .lightGray
+        sender.backgroundColor = sender.isSelected ? UIColor(hex: "#CBECFF") : UIColor(hex: "#EDEFEE")
         
         mapset()
     }
